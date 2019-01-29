@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using CIBAssessment.API.Middleware;
 using CIBAssessment.Common.Interface;
 using CIBAssessment.Data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +21,11 @@ namespace CIBAssessment.API.Controllers
     {
       _entryService = entryService;
     }
-    // GET: api/<controller>
-    [HttpGet]
-    public ActionResult<List<Entry>> Get(int phonebookId)
-    {
-      return _entryService.GetEntries(phonebookId);
-    }
 
     [HttpGet("{id}")]
-    public ActionResult<List<Entry>> Get(int ponebookId, [FromQuery] string name)
+    public ActionResult<List<Entry>> Get(int phonebookId, [FromQuery] string name)
     {
-      return _entryService.getEntries(ponebookId, name);
+      return !string.IsNullOrEmpty(name) ? _entryService.GetEntries(phonebookId, name) : _entryService.GetEntries(phonebookId);
     }
 
     // POST api/<controller>

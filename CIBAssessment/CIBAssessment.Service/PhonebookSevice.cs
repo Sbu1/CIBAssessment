@@ -34,11 +34,6 @@ namespace CIBAssessment.Service
     public Phonebook GetPhonebook(int id)
     {
       var phonebook = _AssessmentContext.Phonebook.FirstOrDefault(x => x.PhonebookId == id);
-      if (phonebook is null)
-      {
-        throw new HttpResponseException(HttpStatusCode.NotFound);
-      }
-
       return phonebook;
     }
 
@@ -50,23 +45,17 @@ namespace CIBAssessment.Service
       return phonebook;
     }
 
-    public void UpdatePhonebook(int id, Phonebook phonebook)
+    public void UpdatePhonebook(int phonebookId, Phonebook phonebook)
     {
-      var result = GetPhonebook(id);
-
-      if (result is null)
-        throw new HttpResponseException(HttpStatusCode.BadRequest);
+      var result = GetPhonebook(phonebookId);
       result.Name = phonebook.Name;
 
       _AssessmentContext.SaveChanges();
     }
 
-    public void DeletePhonebook(int id)
+    public void DeletePhonebook(int phonebookId)
     {
-      var result = GetPhonebook(id);
-
-      if (result is null)
-        throw new HttpResponseException(HttpStatusCode.NotFound);
+      var result = GetPhonebook(phonebookId);
 
       _AssessmentContext.Remove(result);
       _AssessmentContext.SaveChanges();

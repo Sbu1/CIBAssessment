@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CIBAssessment.Common.Interface;
@@ -22,7 +23,7 @@ namespace CIBAssessment.Service
       return entries;
     }
 
-    public List<Entry> getEntries(int phonebbookid, string name)
+    public List<Entry> GetEntries(int phonebbookid, string name)
     {
       return _AssessmentContext.Entry.Where(x => x.Name.Contains(name) && x.PhonebookId == phonebbookid).ToList();
     }
