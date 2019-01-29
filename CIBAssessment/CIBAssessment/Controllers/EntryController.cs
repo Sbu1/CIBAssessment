@@ -27,9 +27,9 @@ namespace CIBAssessment.API.Controllers
     }
 
     [HttpGet("{id}")]
-    public ActionResult<List<Entry>> Get(int id, [FromQuery] string name)
+    public ActionResult<List<Entry>> Get(int ponebookId, [FromQuery] string name)
     {
-      return _entryService.getEntry(id,name);
+      return _entryService.getEntries(ponebookId, name);
     }
 
     // POST api/<controller>
@@ -43,15 +43,16 @@ namespace CIBAssessment.API.Controllers
     [HttpPut("{id}")]
     public ActionResult Put(int id, [FromBody]Entry entry)
     {
-       _entryService.UpdatEntry(id, entry);
+       _entryService.UpdateEntry(id, entry);
        return Ok();
     }
 
     // DELETE api/<controller>/5
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    public ActionResult Delete(int id)
     {
       _entryService.DeleteEntry(id);
+      return NoContent();
     }
   }
 }

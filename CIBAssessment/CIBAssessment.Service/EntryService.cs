@@ -19,21 +19,12 @@ namespace CIBAssessment.Service
     public List<Entry> GetEntries(int phonebookId)
     {
       var entries = _AssessmentContext.Entry.Where(x => x.PhonebookId == phonebookId).ToList();
-
-      //TODO proper message if there are no entries for a phonebook id
-
       return entries;
     }
 
-    public List<Entry> getEntry(int phonebbookid, string name)
+    public List<Entry> getEntries(int phonebbookid, string name)
     {
       return _AssessmentContext.Entry.Where(x => x.Name.Contains(name) && x.PhonebookId == phonebbookid).ToList();
-    }
-
-    public Entry GetEntry(int entryId)
-    {
-      var entry = _AssessmentContext.Entry.FirstOrDefault(x => x.EntryId == entryId);
-      return entry;
     }
 
     public Entry AddEntry(Entry entry)
@@ -47,17 +38,24 @@ namespace CIBAssessment.Service
     public void DeleteEntry(int id)
     {
       var entry = GetEntry(id);
+
+      //Handle null exception
       _AssessmentContext.Entry.Remove(entry);
       _AssessmentContext.SaveChanges();
     }
 
-    public void UpdatEntry(int id, Entry entry)
+    public void UpdateEntry(int id, Entry entry)
     {
       var result = GetEntry(id);
       result.Name = entry.Name;
       result.PhoneNumber = entry.PhoneNumber;
       result.PhonebookId = entry.PhonebookId;
       _AssessmentContext.SaveChanges();
+    }
+
+    private Entry GetEntry(int entryId)
+    {
+      return _AssessmentContext.Entry.First(x => x.EntryId == entryId);
     }
   }
 }

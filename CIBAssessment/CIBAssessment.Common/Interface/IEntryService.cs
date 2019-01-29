@@ -8,13 +8,13 @@ namespace CIBAssessment.Common.Interface
   public interface IEntryService
   {
     List<Entry> GetEntries(int phonebookId);
-    List<Entry> getEntry(int phonebookid,string name);
+    List<Entry> getEntries(int phonebookid,string name);
 
     Entry AddEntry(Entry entry);
 
     void DeleteEntry(int id);
 
-    void UpdatEntry(int id, Entry entry);
+    void UpdateEntry(int id, Entry entry);
 
   }
 }
