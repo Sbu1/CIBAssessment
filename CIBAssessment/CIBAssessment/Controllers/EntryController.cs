@@ -23,9 +23,9 @@ namespace CIBAssessment.API.Controllers
     }
 
     [HttpGet("{id}")]
-    public ActionResult<List<Entry>> Get(int phonebookId, [FromQuery] string name)
+    public ActionResult<List<Entry>> Get(int id, [FromQuery] string name)
     {
-      return !string.IsNullOrEmpty(name) ? _entryService.GetEntries(phonebookId, name) : _entryService.GetEntries(phonebookId);
+      return !string.IsNullOrEmpty(name) ? _entryService.GetEntries(id, name) : _entryService.GetEntries(id);
     }
 
     // POST api/<controller>

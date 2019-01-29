@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 
-namespace CIBAssessment.API.Middleware
+
+namespace CIBAssessment.Common.Exceptions
 {
   public class HttpStatusCodeException : Exception
   {
@@ -24,6 +25,5 @@ namespace CIBAssessment.API.Middleware
     {
       this.ContentType = @"application/json";
     }
-
   }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using CIBAssessment.Common.Exceptions;
 using CIBAssessment.Common.Interface;
 using CIBAssessment.Data.Models;
 
@@ -23,9 +24,9 @@ namespace CIBAssessment.Service
       return entries;
     }
 
-    public List<Entry> GetEntries(int phonebbookid, string name)
+    public List<Entry> GetEntries(int phonebookid, string name)
     {
-      return _AssessmentContext.Entry.Where(x => x.Name.Contains(name) && x.PhonebookId == phonebbookid).ToList();
+      return _AssessmentContext.Entry.Where(x => x.Name.StartsWith(name) && x.PhonebookId == phonebookid).ToList();
     }
 
     public Entry AddEntry(Entry entry)
@@ -40,7 +41,6 @@ namespace CIBAssessment.Service
     {
       var entry = GetEntry(id);
 
-      //Handle null exception
       _AssessmentContext.Entry.Remove(entry);
       _AssessmentContext.SaveChanges();
     }
@@ -56,7 +56,12 @@ namespace CIBAssessment.Service
 
     private Entry GetEntry(int entryId)
     {
-      return _AssessmentContext.Entry.First(x => x.EntryId == entryId);
+      var result = _AssessmentContext.Entry.First(x => x.EntryId == entryId);
+
+      if (result is null)
+        throw new HttpStatusCodeException(Convert.ToInt32(HttpStatusCode.BadRequest), "Invalid contact");
+
+      return result;
     }
   }
 }
