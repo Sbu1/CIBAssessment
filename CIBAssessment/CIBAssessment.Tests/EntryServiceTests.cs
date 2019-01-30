@@ -15,15 +15,30 @@ namespace CIBAssessment.Tests
     [SetUp]
     public void SetUp()
     {
-      var options = new DbContextOptionsBuilder<CBIAssessmentContext>()
-        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-        .Options;
-      CbiAssessmentContext = new CBIAssessmentContext(options);
-     // addPhonebookData();
-
       _entryService = new EntryService(CbiAssessmentContext);
     }
 
-    
+    [Test]
+    public void GetEntries_GivenValidPhonebookId_ShouldReturnEntries()
+    {
+      var result = _entryService.GetEntries(1);
+      Assert.Greater(result.Count, 1);
+    }
+
+    [Test]
+    public void GetEntries_GivenInValidPhonebookId_ShouldReturnEmptyEntries()
+    {
+      var result = _entryService.GetEntries(-1);
+      Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void GetEntries_GivenValidPhonebookIdAndName_ShouldReturnEntries()
+    {
+      var result = _entryService.GetEntries(1, "S");
+      Assert.GreaterOrEqual(result.Count, 1);
+    }
+
+
   }
 }
