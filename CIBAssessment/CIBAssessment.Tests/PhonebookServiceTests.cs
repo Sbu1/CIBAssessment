@@ -15,19 +15,25 @@ using NSubstitute;
 namespace Tests
 {
   [TestFixture]
-  public class Tests
+  public class PhonebookServiceTests : ServiceBase
   {
-    private CBIAssessmentContext _cbiAssessmentContext;
     private PhonebookSevice _phonebookSevice;
-    [SetUp]
-    public void SetUp()
-    {
-      var options = new DbContextOptionsBuilder<CBIAssessmentContext>()
-        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-        .Options;
-      _cbiAssessmentContext = new CBIAssessmentContext(options);
-      addPhonebookData();
+    //[SetUp]
+    //public void SetUp()
+    //{
 
+    //  var options = new DbContextOptionsBuilder<CBIAssessmentContext>()
+    //    .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+    //    .Options;
+    //  _cbiAssessmentContext = new CBIAssessmentContext(options);
+    //  addPhonebookData();
+
+    //  _phonebookSevice = new PhonebookSevice(_cbiAssessmentContext);
+    //}
+
+    [SetUp]
+    public void PhonebookSetup()
+    {
       _phonebookSevice = new PhonebookSevice(_cbiAssessmentContext);
     }
 
@@ -89,7 +95,7 @@ namespace Tests
       Assert.IsNotNull(result);
     }
 
-    public void addPhonebookData()
+    private void addPhonebookData()
     {
       _cbiAssessmentContext.Phonebook.Add(new Phonebook(){Name = "TestData", PhonebookId = 1});
       _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2", PhonebookId = 2});

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CIBAssessment.Common.Interface;
 using CIBAssessment.Data.Models;
+using CIBAssessment.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,54 +13,24 @@ namespace CIBAssessment.Tests
 {
   public abstract class ServiceBase
   {
-    private DbContextOptions<CBIAssessmentContext> _options;
-    protected CBIAssessmentContext Db;
+    protected CBIAssessmentContext _cbiAssessmentContext;
 
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
-     var serviceProvider = new ServiceCollection()
-       .AddEntityFrameworkInMemoryDatabase()
-       .BuildServiceProvider();
 
-     _options = new DbContextOptionsBuilder<CBIAssessmentContext>()
-       .UseInMemoryDatabase(Guid.NewGuid().ToString())
-       .UseInternalServiceProvider(serviceProvider)
-       .Options;
-
-     Db = new CBIAssessmentContext(_options);
-     Db.Database.EnsureCreated();
-     SetupData();
+      var options = new DbContextOptionsBuilder<CBIAssessmentContext>()
+        .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+        .Options;
+      _cbiAssessmentContext = new CBIAssessmentContext(options);
+      addPhonebookData();
     }
-
-    public void SetupData()
+    private void addPhonebookData()
     {
-      AddPhonebooks();
+      _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData", PhonebookId = 1 });
+      _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2", PhonebookId = 2 });
+      _cbiAssessmentContext.SaveChanges();
     }
-
-    public IEnumerable<Phonebook> AddPhonebooks()
-    {
-      using (var db = new CBIAssessmentContext(_options))
-      {
-        var phonebook = new List<Phonebook>
-        {
-          new Phonebook
-          {
-            Name = "Private"
-          },
-          new Phonebook()
-          {
-            Name = "Public"
-          }
-        };
-
-        db.Phonebook.AddRange(phonebook);
-        db.SaveChanges();
-
-        return phonebook;
-      }
-    }
-
 
   }
 }
