@@ -50,18 +50,49 @@ namespace Tests
     public void AddPhonebook_GivenValidPhonebook_ShouldAddPhonebook()
     {
       var before = _phonebookSevice.GetPhonebooks();
-      _phonebookSevice.AddPhonebook(new Phonebook() {Name = "Unit Test"});
+      _phonebookSevice.AddPhonebook(new Phonebook() {PhonebookId = 3,Name = "Unit Test"});
       var after = _phonebookSevice.GetPhonebooks();
       Assert.Greater(after.Count, before.Count);
     }
-    //TODO more tests for addPhonebook
 
-    
+    [Test]
+    public void UpdatePhonebook_GivenValidPhonebook_ShouldUpdatePhonebook()
+    {
+      var phonebookid = 1;
+      var phonebookName = "New Test Name";
+      var phonebook = new Phonebook(){ Name = phonebookName};
+
+      _phonebookSevice.UpdatePhonebook(phonebookid, phonebook);
+
+      var result = _phonebookSevice.GetPhonebook(phonebookid);
+
+      Assert.AreSame(phonebookName, result.Name );
+    }
+
+    [Test]
+    public void DeletePhonebook_GivenValidPhonebookId_ShouldDeletePhonebook()
+    {
+      var phonebookid = 1;
+
+      var before = _phonebookSevice.GetPhonebooks();
+      _phonebookSevice.DeletePhonebook(phonebookid);
+      var after = _phonebookSevice.GetPhonebooks();
+
+      Assert.Less(after.Count, before.Count);
+    }
+
+    [Test]
+    public void GetPhonebooks_ShouldReturnPhonebooks()
+    {
+      var result = _phonebookSevice.GetPhonebooks();
+
+      Assert.IsNotNull(result);
+    }
 
     public void addPhonebookData()
     {
-      _cbiAssessmentContext.Phonebook.Add(new Phonebook(){Name = "TestData"});
-      _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2" });
+      _cbiAssessmentContext.Phonebook.Add(new Phonebook(){Name = "TestData", PhonebookId = 1});
+      _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2", PhonebookId = 2});
       _cbiAssessmentContext.SaveChanges();
     }
   }
