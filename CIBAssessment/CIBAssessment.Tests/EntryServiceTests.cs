@@ -39,6 +39,19 @@ namespace CIBAssessment.Tests
       Assert.GreaterOrEqual(result.Count, 1);
     }
 
+    [Test]
+    public void GetEntries_GivenInvalidPhonebookIdAndCorrectName_ShouldReturnEmptyEntries()
+    {
+      var result = _entryService.GetEntries(-1, "S");
+      Assert.IsEmpty(result);
+    }
+
+    [Test]
+    public void GetEntries_GivenValidPhonebookIDAndIncorrectName_ShouldReturnEmptyEntries()
+    {
+      var result = _entryService.GetEntries(1, "ze");
+      Assert.IsEmpty(result);
+    }
 
   }
 }
