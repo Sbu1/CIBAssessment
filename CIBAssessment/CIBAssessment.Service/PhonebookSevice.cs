@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using CIBAssessment.Common.Exceptions;
 using CIBAssessment.Common.Interface;
 using CIBAssessment.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,10 @@ namespace CIBAssessment.Service
     public Phonebook GetPhonebook(int id)
     {
       var phonebook = _AssessmentContext.Phonebook.FirstOrDefault(x => x.PhonebookId == id);
+
+      if (phonebook is null)
+        throw new HttpStatusCodeException(Convert.ToInt32(HttpStatusCode.BadRequest), "Invalid phonebook");
+
       return phonebook;
     }
 
