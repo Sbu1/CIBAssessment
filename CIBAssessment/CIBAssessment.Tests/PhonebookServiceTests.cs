@@ -18,23 +18,10 @@ namespace Tests
   public class PhonebookServiceTests : ServiceBase
   {
     private PhonebookSevice _phonebookSevice;
-    //[SetUp]
-    //public void SetUp()
-    //{
-
-    //  var options = new DbContextOptionsBuilder<CBIAssessmentContext>()
-    //    .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-    //    .Options;
-    //  _cbiAssessmentContext = new CBIAssessmentContext(options);
-    //  addPhonebookData();
-
-    //  _phonebookSevice = new PhonebookSevice(_cbiAssessmentContext);
-    //}
-
     [SetUp]
     public void PhonebookSetup()
     {
-      _phonebookSevice = new PhonebookSevice(_cbiAssessmentContext);
+      _phonebookSevice = new PhonebookSevice(CbiAssessmentContext);
     }
 
     [Test]
@@ -97,9 +84,9 @@ namespace Tests
 
     private void addPhonebookData()
     {
-      _cbiAssessmentContext.Phonebook.Add(new Phonebook(){Name = "TestData", PhonebookId = 1});
-      _cbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2", PhonebookId = 2});
-      _cbiAssessmentContext.SaveChanges();
+      CbiAssessmentContext.Phonebook.Add(new Phonebook(){Name = "TestData", PhonebookId = 1});
+      CbiAssessmentContext.Phonebook.Add(new Phonebook() { Name = "TestData2", PhonebookId = 2});
+      CbiAssessmentContext.SaveChanges();
     }
   }
 }
