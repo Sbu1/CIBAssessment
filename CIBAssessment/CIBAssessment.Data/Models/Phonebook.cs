@@ -12,6 +12,7 @@ namespace CIBAssessment.Data.Models
         }
 
         public int PhonebookId { get; set; }
+        [Required]
         public string Name { get; set; }
 
         public virtual ICollection<Entry> Entry { get; set; }

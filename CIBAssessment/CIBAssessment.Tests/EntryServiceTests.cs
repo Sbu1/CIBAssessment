@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
+using CIBAssessment.Common.Exceptions;
 using CIBAssessment.Data.Models;
 using CIBAssessment.Service;
 using Microsoft.EntityFrameworkCore;
@@ -53,5 +55,18 @@ namespace CIBAssessment.Tests
       Assert.IsEmpty(result);
     }
 
+    [Test]
+    public void GetEntry_GivenValidEntryId_ShouldReturnEntry()
+    {
+      var result = _entryService.GetEntry(1);
+
+      Assert.IsNotNull(result);
+    }
+
+    [Test]
+    public void GetEntry_GivenInValidEntryId_ShouldThrowException()
+    {
+      Assert.Throws<HttpStatusCodeException>(() => _entryService.GetEntry(-1));
+    }
   }
 }

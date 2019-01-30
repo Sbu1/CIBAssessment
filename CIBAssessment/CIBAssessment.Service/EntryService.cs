@@ -54,9 +54,9 @@ namespace CIBAssessment.Service
       _AssessmentContext.SaveChanges();
     }
 
-    private Entry GetEntry(int entryId)
+    public Entry GetEntry(int entryId)
     {
-      var result = _AssessmentContext.Entry.First(x => x.EntryId == entryId);
+      var result = _AssessmentContext.Entry.FirstOrDefault(x => x.EntryId == entryId);
 
       if (result is null)
         throw new HttpStatusCodeException(Convert.ToInt32(HttpStatusCode.BadRequest), "Invalid contact");
